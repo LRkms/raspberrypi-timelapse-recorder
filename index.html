@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>🎥 타임랩스 녹화기</title>
+</head>
+<body>
+    <h1>🕒 타임랩스 녹화 제어판</h1>
+
+    {% if status == "recording" %}
+        <p>🔴 녹화 중입니다!</p>
+        <form action="/stop" method="post">
+            <button type="submit">⏹️ 녹화 중지</button>
+        </form>
+    {% else %}
+        <p>🟢 현재 녹화 중이 아닙니다.</p>
+        <form action="/start" method="post">
+            <label>녹화 시간 설정:</label><br>
+            <input type="number" name="duration_hr" min="0" placeholder="시간" required> 시간
+            <input type="number" name="duration_min" min="0" max="59" placeholder="분" required> 분<br><br>
+            <button type="submit">▶️ 녹화 시작</button>
+        </form>
+    {% endif %}
+
+    <hr>
+    <h2>📁 저장된 영상 목록</h2>
+    <ul>
+        {% for file in files %}
+            <li><a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a></li>
+        {% else %}
+            <li>저장된 파일이 없습니다.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
